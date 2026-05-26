@@ -20,12 +20,8 @@ phases:
   post_build:
     commands:
       - echo Deploying to EC2 via SSM
+      - aws ssm send-command --instance-ids "i-0119268c6cfb386aa" --document-name "AWS-RunShellScript" --comment "Deploy Node App" --parameters 'commands=["cd /root/cicd-node-app && git pull origin main && npm install && pm2 restart cicd-app"]'  
 
-      - aws ssm send-command \
-        --instance-ids "i-0119268c6cfb386aa" \
-        --document-name "AWS-RunShellScript" \
-        --comment "Deploy Node App" \
-        --parameters commands="cd /root/cicd-node-app && git pull origin main && npm install && pm2 restart cicd-app"
 
 artifacts:
   files:
